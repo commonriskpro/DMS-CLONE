@@ -296,6 +296,14 @@ export function CustomerDetailPage({
       }),
     [surfaceSignals, entityScope]
   );
+
+  // Memoize the callbacks array passed to NextActionZone
+  // This keeps the same reference when initialCallbacks has not been replaced,
+  // reducing unnecessary useMemo recomputation on parent rerenders
+  const callbacksForZone = React.useMemo(
+    () => initialCallbacks?.data ?? [],
+    [initialCallbacks?.data]
+  );
   const contextSignals = React.useMemo(
     () =>
       toContextSignals(surfaceSignals, {
@@ -522,7 +530,7 @@ export function CustomerDetailPage({
 
       <NextActionZone
         contextSignals={contextSignals}
-        callbacks={initialCallbacks?.data ?? []}
+        callbacks={callbacksForZone}
         customerId={id}
         canReadCrm={!!canReadCrm}
       />
