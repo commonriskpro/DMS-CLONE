@@ -1,0 +1,4 @@
+# Files allowed to use Tailwind palette classes (bg-*-500, text-*-600, etc.) until tokenized.
+# One path per line; paths relative to apps/dealer. Remove when file is migrated.
+components/closed-screen.tsx
+components/app-shell/topbar.tsx
