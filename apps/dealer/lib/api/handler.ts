@@ -181,10 +181,9 @@ export function sanitizeJsonInput<T>(value: T): T {
     return value.map((item) => sanitizeJsonInput(item)) as T;
   }
   if (value && typeof value === "object" && Object.getPrototypeOf(value) === Object.prototype) {
-    const entries = Object.entries(value as Record<string, unknown>).map(([key, entryValue]) => [
-      key,
-      sanitizeJsonInput(entryValue),
-    ]);
+    const entries = Object.entries(value as Record<string, unknown>)
+      .filter(([key]) => key !== "__proto__" && key !== "constructor" && key !== "prototype")
+      .map(([key, entryValue]) => [key, sanitizeJsonInput(entryValue)]);
     return Object.fromEntries(entries) as T;
   }
   return value;
